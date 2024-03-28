@@ -6,17 +6,20 @@ import { useEffect, useState } from 'react';
 import { NotificationWillDisplayEvent, OSNotification, OneSignal } from 'react-native-onesignal';
 import { Notification } from '../components/Notification';
 
+
 const linking = {
-  prefixes: ['com.rocketseat.igniteshoes://'],
+  prefixes: ['com.rocketseat.igniteshoes://', 'exp+igniteshoes://'],
   config: {
     screens: {
-      details: '/details/:productId',
-      parse: {
-        productId: (productId: string) => productId,
-      }
+      details: {
+        path: '/details/:productId',
+        parse: {
+          productId: (productId: string) => productId,
+        },
+      },
     },
   },
-}
+};
 
 export function Routes() {
   const { colors } = useTheme();
@@ -36,6 +39,8 @@ export function Routes() {
 
     return () => OneSignal.Notifications.removeEventListener("foregroundWillDisplay", handleNotification)
   }, [])
+
+
 
   return (
     <NavigationContainer theme={theme} linking={linking}>
